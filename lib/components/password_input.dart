@@ -63,7 +63,7 @@ class _PasswordInputState extends State<PasswordInput> {
       decoration:BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
         boxShadow: [
-          BoxShadow(color: Color.fromARGB(75, 101, 101, 101),blurRadius:10),
+          BoxShadow(color: Color.fromARGB(33, 101, 101, 101),blurRadius:8),
         ]
       ),
     );

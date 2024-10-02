@@ -1,5 +1,5 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:dev_dot_academy/screens/login.dart';
+import 'package:dev_dot_academy/screens/login_screen.dart';
 import 'package:dev_dot_academy/utils/navigate_utils.dart';
 import 'package:flutter/material.dart';
 
