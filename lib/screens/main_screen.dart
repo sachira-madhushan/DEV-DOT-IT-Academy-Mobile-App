@@ -1,3 +1,4 @@
+import 'package:dev_dot_academy/screens/all_courses.dart';
 import 'package:dev_dot_academy/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +10,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> screens=[];
+  List<Widget> screens=[AllCourses()];
   int screenIndex=1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-
+      body: screens[screenIndex],
       bottomNavigationBar:Container(
         child: BottomNavigationBar(items: [
         BottomNavigationBarItem(icon:Icon(Icons.book_sharp),label:"My Courses"),
