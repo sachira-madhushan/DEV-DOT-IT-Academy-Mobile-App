@@ -13,6 +13,27 @@ class AllCourses extends StatefulWidget {
 
 class _AllCoursesState extends State<AllCourses> {
   TextEditingController search = TextEditingController();
+  final List<CourseData> courses = [
+    CourseData(
+      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
+      instructor: "Sachira Madhushan",
+      price: "2000",
+      title: "Game Development Full Courses",
+    ),
+    CourseData(
+      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
+      instructor: "Sachira Madhushan",
+      price: "2000",
+      title: "Advanced Game Development",
+    ),
+    CourseData(
+      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
+      instructor: "Sachira Madhushan",
+      price: "2000",
+      title: "Game Design Fundamentals",
+    ),
+    // Add more courses as needed
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,37 +84,21 @@ class _AllCoursesState extends State<AllCourses> {
               left: 0,
               right: 0,
               bottom: 0,
-              child: Expanded(
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Course(
-                          banner:
-                              "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-                          instructor: "Sachira Madhushan",
-                          price: "2000",
-                          title: "Game Development Full Courses",
-                        ),
-                        Course(
-                          banner:
-                              "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-                          instructor: "Sachira Madhushan",
-                          price: "2000",
-                          title: "Game Development Full Courses",
-                        ),
-                        Course(
-                          banner:
-                              "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-                          instructor: "Sachira Madhushan",
-                          price: "2000",
-                          title: "Game Development Full Courses",
-                        ),
-                      ],
-                    ),
-                  ),
-                  decoration: BoxDecoration(color: Colors.white),
+              child: Container(
+                child: Expanded(
+                  child: ListView.builder(
+                  itemCount: courses.length, // Number of courses
+                  itemBuilder: (context, index) {
+                    return Course(
+                      banner: courses[index].banner,
+                      instructor: courses[index].instructor,
+                      price: courses[index].price,
+                      title: courses[index].title,
+                    );
+                  },
+                                  ),
                 ),
+                color: Colors.white,
               ),
             )
           ],
@@ -101,4 +106,18 @@ class _AllCoursesState extends State<AllCourses> {
       ),
     );
   }
+}
+
+class CourseData {
+  final String banner;
+  final String instructor;
+  final String price;
+  final String title;
+
+  CourseData({
+    required this.banner,
+    required this.instructor,
+    required this.price,
+    required this.title,
+  });
 }
