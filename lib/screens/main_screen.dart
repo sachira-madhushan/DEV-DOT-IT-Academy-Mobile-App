@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   List<Widget> screens=[AllCourses()];
-  int screenIndex=1;
+  int screenIndex=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
