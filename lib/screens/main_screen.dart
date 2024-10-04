@@ -1,4 +1,5 @@
 import 'package:dev_dot_academy/screens/all_courses.dart';
+import 'package:dev_dot_academy/screens/course_view.dart';
 import 'package:dev_dot_academy/screens/my_courses.dart';
 import 'package:dev_dot_academy/utils/color_utils.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> screens=[MyCourses(),AllCourses()];
+  List<Widget> screens=[MyCourses(),CourseView()];
   int screenIndex=1;
   @override
   Widget build(BuildContext context) {
