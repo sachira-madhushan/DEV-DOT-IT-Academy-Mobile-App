@@ -40,7 +40,7 @@ class AuthProvider extends ChangeNotifier {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'u_email': email, "u_password": password}),
       );
-      if (response.statusCode == 500) {
+      if (response.statusCode == 500 || response.statusCode==401) {
         result = false;
         
       }else{

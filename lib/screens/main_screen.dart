@@ -12,7 +12,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> screens=[MyCourses(),CourseView()];
+  List<Widget> screens=[MyCourses(),AllCourses()];
   int screenIndex=1;
   @override
   Widget build(BuildContext context) {

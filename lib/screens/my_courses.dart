@@ -37,76 +37,52 @@ class _MyCoursesState extends State<MyCourses> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              child: Container(
-                color: Colors.green,
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Image.asset(
-                        "assets/images/logo.png",
-                        width: 130,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                          child: Text(
-                        "Dev Dot Academy",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
-                      Center(
-                          child: Text(
-                        "Welcome Sachira Madhushan",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
-                    ],
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          centerTitle: true,
+            expandedHeight: 300.0,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text("My Courses", style: TextStyle(color: Color.fromARGB(255, 67, 67, 67), fontSize:18),textAlign:TextAlign.center,),
+              background: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage:AssetImage("assets/images/logo_squire.png"),
+
                   ),
-                ),
+                  SizedBox(height: 10),
+                  Text("Full Name", style: TextStyle(color: Color.fromARGB(255, 67, 67, 67), fontSize: 22)),
+                  Text("Dev Dot Academy", style: TextStyle(color: const Color.fromARGB(255, 123, 123, 123), fontSize: 16)),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width:double.infinity,
+                      
+                      decoration: BoxDecoration(color: Colors.red),
+                      child: TextButton(onPressed:(){}, child:Text("Logout",style:TextStyle(color: Colors.white),))),
+                  )
+                ],
               ),
             ),
-            Positioned(
-                top: 200,
-                child: 
-                Container(
-                  width:350,
-                  decoration:BoxDecoration(color: Color.fromARGB(255, 193, 23, 11)),
-                  child: TextButton(onPressed:(){}, child:Text("Logout",style: TextStyle(color: Colors.white),)),)
-                ),
-            Positioned(
-              top: 270,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                child: Expanded(
-                  child: ListView.builder(
-                  itemCount: courses.length, // Number of courses
-                  itemBuilder: (context, index) {
-                    return Course(
-                      banner: courses[index].banner,
-                      instructor: courses[index].instructor,
-                      price: courses[index].price,
-                      title: courses[index].title,
-                    );
-                  },
-                                  ),
-                ),
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
-      ),
+          ),
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Course(
+                        banner: courses[index].banner,
+                        instructor: courses[index].instructor,
+                        price: courses[index].price,
+                        title: courses[index].title,
+                      );
+              },
+              childCount: courses.length, // Number of list items
+            ),
+          ),
+      ]
     );
   }
 }
