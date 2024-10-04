@@ -5,23 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-class AuthProvide extends ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   bool? _isLoading = false;
   bool? _isUserLoggedIn = false;
-  int? _userID;
+  String? _token;
 
   get isLoading => _isLoading;
   get isUserLoggedIn => _isUserLoggedIn;
-  get userID=>_userID;
+  get token=>_token;
 
-  void setUserLoggedIn(int userID) async {
+  void setUserLoggedIn(String token) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     pref.setBool("isUserLoggedIn", true);
-    pref.setInt("userID", userID);
+    pref.setString("token", token);
 
     _isUserLoggedIn = pref.getBool("isUserLoggedIn")!;
-    _userID = pref.getInt("userID")!;
+    _token = pref.getString("token")!;
+
     notifyListeners();
   }
 
@@ -41,12 +42,18 @@ class AuthProvide extends ChangeNotifier {
       );
       if (response.statusCode == 500) {
         result = false;
+        
+      }else{
+        final jsonData=jsonDecode(response.body);
+        setUserLoggedIn(jsonData['token']);
       }
       print(response.statusCode);
+      
     }
     _isLoading = false;
     notifyListeners();
     print(result);
     return result;
   }
+
 }
