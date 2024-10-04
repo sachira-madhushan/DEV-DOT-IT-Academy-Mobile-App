@@ -41,7 +41,7 @@ class _MyCoursesState extends State<MyCourses> {
       slivers: [
         SliverAppBar(
           centerTitle: true,
-            expandedHeight: 300.0,
+            expandedHeight: 320.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               title: Text("My Courses", style: TextStyle(color: Color.fromARGB(255, 67, 67, 67), fontSize:18),textAlign:TextAlign.center,),

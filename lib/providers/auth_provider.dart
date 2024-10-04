@@ -56,4 +56,6 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  
+
 }

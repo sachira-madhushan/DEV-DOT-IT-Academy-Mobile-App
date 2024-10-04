@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:dev_dot_academy/screens/login_screen.dart';
+import 'package:dev_dot_academy/screens/main_screen.dart';
 import 'package:dev_dot_academy/utils/navigate_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,13 +14,21 @@ class SplashScreen extends StatefulWidget {
 
 @override
 class _SplashScreenState extends State<SplashScreen> {
-  
-  void initState() {
+  bool isLoggedIn=false;
+  void initState(){
+    checkLoggedIn();
     Future.delayed(Duration(seconds: 5), () {
-      NavigateUtils.navigateToAndRemove(context, Login());
+      isLoggedIn?
+      NavigateUtils.navigateToAndRemove(context, MainScreen())
+      :NavigateUtils.navigateToAndRemove(context, Login());
     });
   }
 
+  void checkLoggedIn()async{
+    SharedPreferences pref= await SharedPreferences.getInstance();
+
+    isLoggedIn=pref.getBool("isUserLoggedIn")!;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
