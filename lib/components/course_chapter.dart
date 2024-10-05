@@ -4,11 +4,11 @@ import 'package:youtube_parser/youtube_parser.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CourseChapter extends StatefulWidget {
-  const CourseChapter({super.key,required this.title,required this.description,required this.video});
+  const CourseChapter({super.key,required this.title,required this.description,required this.video,required this.hasAccess});
   final String title;
   final String description;
   final String video;
-
+  final bool hasAccess;
   @override
   State<CourseChapter> createState() => _CourseChapterState();
 }
@@ -52,11 +52,14 @@ class _CourseChapterState extends State<CourseChapter> {
             
             Padding(
               padding: const EdgeInsets.all(8.0),
-              //child: VideoLock(),
-              child: YoutubePlayer(
+              child:
+              widget.hasAccess?
+              
+               YoutubePlayer(
                 controller: _controller,
                 showVideoProgressIndicator: true,
-              ),
+              ):
+              VideoLock()
             ),
           ],
         ),

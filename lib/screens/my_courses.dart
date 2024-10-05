@@ -3,6 +3,7 @@ import 'package:dev_dot_academy/components/primary_button.dart';
 import 'package:dev_dot_academy/components/search_box.dart';
 import 'package:dev_dot_academy/providers/auth_provider.dart';
 import 'package:dev_dot_academy/providers/course_provider.dart';
+import 'package:dev_dot_academy/screens/course_view.dart';
 import 'package:dev_dot_academy/screens/splash_screen.dart';
 import 'package:dev_dot_academy/utils/navigate_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -107,11 +108,16 @@ class _MyCoursesState extends State<MyCourses> {
           : SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return Course(
-                    banner: courses['course'][index]['c_banner'],
-                    instructor: courses['course'][index]['c_instructor'],
-                    price: courses['course'][index]['c_price'].toString(),
-                    title: courses['course'][index]['c_title'],
+                  return GestureDetector(
+                    onTap: (){
+                      NavigateUtils.navigateTo(context, CourseView(couresID:courses['course'][index]['c_id']));
+                    },
+                    child: Course(
+                      banner: courses['course'][index]['c_banner'],
+                      instructor: courses['course'][index]['c_instructor'],
+                      price: courses['course'][index]['c_price'].toString(),
+                      title: courses['course'][index]['c_title'],
+                    ),
                   );
                 },
                 childCount: courses.isEmpty ? 0 : courses['course'].length,

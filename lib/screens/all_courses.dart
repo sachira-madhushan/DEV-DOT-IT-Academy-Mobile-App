@@ -108,6 +108,7 @@ class _AllCoursesState extends State<AllCourses> {
                     return GestureDetector(
                       onTap: (){
                         NavigateUtils.navigateTo(context, CourseView(couresID:courses['course'][index]['c_id']));
+                        //Provider.of<CourseProvider>(context,listen: false).getAllCourses();
                       },
                       child: Course(
                         banner: courses['course'][index]['c_banner'],
@@ -127,18 +128,4 @@ class _AllCoursesState extends State<AllCourses> {
       ),
     );
   }
-}
-
-class CourseData {
-  final String banner;
-  final String instructor;
-  final String price;
-  final String title;
-
-  CourseData({
-    required this.banner,
-    required this.instructor,
-    required this.price,
-    required this.title,
-  });
 }
