@@ -34,7 +34,6 @@ class _SearchBoxState extends State<SearchBox> {
               padding: const EdgeInsets.only(right: 5),
               child: TextField(
                 controller: widget.controller,
-                obscureText: isHidden,
                 style: TextStyle(fontSize: 18),
                 decoration:InputDecoration(
                   border:UnderlineInputBorder(borderSide: BorderSide.none),
@@ -51,7 +50,8 @@ class _SearchBoxState extends State<SearchBox> {
         color: Color.fromARGB(255, 255, 255, 255),
         boxShadow: [
           BoxShadow(color: Color.fromARGB(33, 101, 101, 101),blurRadius:8),
-        ]
+        ],
+        borderRadius:BorderRadius.circular(20),
       ),
     );
   }

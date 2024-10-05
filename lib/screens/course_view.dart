@@ -18,23 +18,22 @@ class CourseView extends StatefulWidget {
 }
 
 class _CourseViewState extends State<CourseView> {
-
   late int userID;
   @override
   void initState() {
     getUserID();
   }
 
-
-  void getUserID()async {
-    SharedPreferences prefs=await SharedPreferences.getInstance();
-    userID=prefs.getInt("u_id")!;
+  void getUserID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userID = prefs.getInt("u_id")!;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<CourseProvider>(context, listen: false).getCourseByID(widget.couresID);
-      Provider.of<CourseProvider>(context,listen: false).checkEnrollment(userID, widget.couresID);
+      Provider.of<CourseProvider>(context, listen: false)
+          .getCourseByID(widget.couresID);
+      Provider.of<CourseProvider>(context, listen: false)
+          .checkEnrollment(userID, widget.couresID);
     });
-
   }
 
   late YoutubePlayerController _controller;
@@ -64,64 +63,82 @@ class _CourseViewState extends State<CourseView> {
     bool isLoading = Provider.of<CourseProvider>(context).isLoading;
     bool hasAccess = Provider.of<CourseProvider>(context).hasAccess;
 
-    print("Has Access"+hasAccess.toString());
-    setIntroVideo(courses['course'][0]['c_intro']);
+    isLoading ? print("") : setIntroVideo(courses['course'][0]['c_intro']);
 
     return SafeArea(
       child: Scaffold(
-        body: 
-        isLoading?
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    YoutubePlayer(
+                      controller: _controller,
+                      showVideoProgressIndicator: true,
+                    ),
+                    Text(
+                      courses.isEmpty ? "" : courses['course'][0]['c_title'],
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        courses.isEmpty
+                            ? ""
+                            : courses['course'][0]['c_description'],
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: const Color.fromARGB(255, 136, 136, 136)),
+                        textAlign: TextAlign.justify,
+                      ),
+                    ),
+                    hasAccess
+                        ? Text("")
+                        : Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: PrimaryButton(
+                                text: "Buy this course",
+                                onTap: () {
 
-        Center(child: CircularProgressIndicator())
-        :
-        
-        SingleChildScrollView(
-          child: Column(
-
-            children: [
-              YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
-              ),
-              Text(
-                courses['course'][0]['c_title'],
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  courses['course'][0]['c_description'],
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: const Color.fromARGB(255, 136, 136, 136)),
-                  textAlign: TextAlign.justify,
+                                  courses.isEmpty
+                              ? Text("")
+                              :
+                                  _launchInBrowser(Uri.parse(
+                                      "https://wa.me/+94783398454?text=I want to buy this courses \n\n" +
+                                          "Course ID:" +
+                                          widget.couresID.toString() +
+                                          "\nCourse Title:" +
+                                          courses['course'][0]['c_title'] +
+                                          "\n\n" +
+                                          "My User ID:" +
+                                          userID.toString()));
+                                }),
+                          ),
+                    SizedBox(
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: courses.isEmpty
+                              ? 0
+                              :courses['chapters'].length,
+                        itemBuilder: (context, index) {
+                          return courses.isEmpty
+                              ? Text("")
+                              : CourseChapter(
+                                  hasAccess: hasAccess,
+                                  title: courses['chapters'][index]
+                                      ['chap_title'],
+                                  description: courses['chapters'][index]
+                                      ['chap_description'],
+                                  video: courses['chapters'][index]
+                                      ['chap_video'],
+                                );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              hasAccess?
-              Text(""):
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: PrimaryButton(
-                    text: "Buy this course",
-                    onTap: () {
-                      _launchInBrowser(Uri.parse(
-                          "https://wa.me/+94783398454?text=I want to buy this courses \n\n"+"Course ID:"+widget.couresID.toString()+"\nCourse Title:"+courses['course'][0]['c_title']+"\n\n"+"My User ID:"+userID.toString()));
-                    }),
-              ),
-              SizedBox(
-                height:500,
-                child: ListView.builder(
-                  itemCount:courses['chapters'].length,
-                  
-                  itemBuilder: (context, index) {
-                    return CourseChapter(hasAccess: hasAccess, title: courses['chapters'][index]['chap_title'],description: courses['chapters'][index]['chap_description'],video: courses['chapters'][index]['chap_video'],);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

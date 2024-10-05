@@ -18,19 +18,34 @@ class AllCourses extends StatefulWidget {
 
 class _AllCoursesState extends State<AllCourses> {
   TextEditingController search = TextEditingController();
-  
+  List<dynamic> filteredCourses = [];
+  Map<String,dynamic> courses={};
    @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CourseProvider>(context, listen: false).getAllCourses();
+    });
+
+    search.addListener(() {
+      filterCourses();
+    });
+  }
+
+   void filterCourses() {
+    String query = search.text.toLowerCase();
+    setState(() {
+      filteredCourses = courses['course'].where((course) {
+        return course['c_title'].toLowerCase().contains(query);
+      }).toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String,dynamic> courses=Provider.of<CourseProvider>(context).allCourses;
+    courses=Provider.of<CourseProvider>(context).allCourses;
     bool isLoading=Provider.of<CourseProvider>(context).isLoading;
+    filteredCourses = courses['course'];
 
     return Scaffold(
       body: Container(
@@ -45,7 +60,7 @@ class _AllCoursesState extends State<AllCourses> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 25,
+                        height: 35,
                       ),
                       Image.asset(
                         "assets/images/logo.png",
@@ -103,18 +118,18 @@ class _AllCoursesState extends State<AllCourses> {
                   :
                   
                   ListView.builder(
-                  itemCount:courses.isEmpty ? 0:courses['course'].length,
+                  itemCount:filteredCourses.isEmpty ? 0:filteredCourses.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
-                        NavigateUtils.navigateTo(context, CourseView(couresID:courses['course'][index]['c_id']));
+                        NavigateUtils.navigateTo(context, CourseView(couresID:filteredCourses[index]['c_id']));
                         //Provider.of<CourseProvider>(context,listen: false).getAllCourses();
                       },
                       child: Course(
-                        banner: courses['course'][index]['c_banner'],
-                        instructor: courses['course'][index]['c_instructor'],
-                        price: courses['course'][index]['c_price'].toString(),
-                        title: courses['course'][index]['c_title'],
+                        banner:filteredCourses[index]['c_banner'],
+                        instructor: filteredCourses[index]['c_instructor'],
+                        price: filteredCourses[index]['c_price'].toString(),
+                        title: filteredCourses[index]['c_title'],
                       ),
                     );
                   },
