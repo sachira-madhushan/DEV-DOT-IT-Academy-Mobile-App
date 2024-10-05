@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AllCourses extends StatefulWidget {
   const AllCourses({super.key});
@@ -81,7 +82,22 @@ class _AllCoursesState extends State<AllCourses> {
                 child: Expanded(
                   child: 
                   isLoading?
-                  Text("Loading...")
+                  Shimmer.fromColors(
+                    enabled: true,
+                    child:
+                  ListView.builder(
+                  itemCount:5,
+                  itemBuilder: (context, index) {
+                    return Course(
+                      banner:"",
+                      instructor: "",
+                      price: "",
+                      title: "",
+                    );
+                  },
+                  )
+                  , baseColor: Colors.grey.shade300, highlightColor:  Colors.grey.shade100,)
+                  
                   :
                   
                   ListView.builder(

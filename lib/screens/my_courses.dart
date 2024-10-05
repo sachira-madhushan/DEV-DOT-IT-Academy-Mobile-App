@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MyCourses extends StatefulWidget {
   const MyCourses({super.key});
@@ -28,7 +29,8 @@ class _MyCoursesState extends State<MyCourses> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> courses =Provider.of<CourseProvider>(context,listen: false).userCourses;
+    Map<String, dynamic> courses =
+        Provider.of<CourseProvider>(context, listen: false).userCourses;
     bool isLoading = Provider.of<CourseProvider>(context).isLoading;
 
     return CustomScrollView(slivers: [
@@ -52,10 +54,10 @@ class _MyCoursesState extends State<MyCourses> {
               ),
               SizedBox(height: 10),
               Text(
-                Provider.of<AuthProvider>(context,listen: false).isLoading?
-                ""
-                :
-                Provider.of<AuthProvider>(context,listen: false).username,
+                  Provider.of<AuthProvider>(context, listen: false).isLoading
+                      ? "No Data"
+                      : Provider.of<AuthProvider>(context, listen: false)
+                          .username,
                   style: TextStyle(
                       color: Color.fromARGB(255, 67, 67, 67), fontSize: 22)),
               Text("Dev Dot Academy",
@@ -83,20 +85,38 @@ class _MyCoursesState extends State<MyCourses> {
           ),
         ),
       ),
-      SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      return Course(
-                        banner: courses['course'][index]['c_banner'],
-                        instructor: courses['course'][index]['c_instructor'],
-                        price: courses['course'][index]['c_price'].toString(),
-                        title: courses['course'][index]['c_title'],
-                      );
-                    },
-                    childCount: courses.isEmpty ? 0 : courses['course'].length,
-                  ),
-                ),
+      isLoading
+          ? SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Shimmer.fromColors(
+                    enabled: true,
+                    child: Course(
+                      banner: "",
+                      instructor: "",
+                      price: "",
+                      title: "",
+                    ),
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                  );
+                },
+                childCount: 5,
+              ),
+            )
+          : SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Course(
+                    banner: courses['course'][index]['c_banner'],
+                    instructor: courses['course'][index]['c_instructor'],
+                    price: courses['course'][index]['c_price'].toString(),
+                    title: courses['course'][index]['c_title'],
+                  );
+                },
+                childCount: courses.isEmpty ? 0 : courses['course'].length,
+              ),
+            ),
     ]);
   }
 }
-
