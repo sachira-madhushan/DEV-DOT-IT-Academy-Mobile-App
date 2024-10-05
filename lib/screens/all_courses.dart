@@ -1,8 +1,10 @@
 import 'package:dev_dot_academy/components/course.dart';
 import 'package:dev_dot_academy/components/search_box.dart';
+import 'package:dev_dot_academy/providers/course_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class AllCourses extends StatefulWidget {
   const AllCourses({super.key});
@@ -13,29 +15,20 @@ class AllCourses extends StatefulWidget {
 
 class _AllCoursesState extends State<AllCourses> {
   TextEditingController search = TextEditingController();
-  final List<CourseData> courses = [
-    CourseData(
-      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-      instructor: "Sachira Madhushan",
-      price: "2000",
-      title: "Game Development Full Courses",
-    ),
-    CourseData(
-      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-      instructor: "Sachira Madhushan",
-      price: "2000",
-      title: "Advanced Game Development",
-    ),
-    CourseData(
-      banner: "https://www.oyolloo.com/wp-content/uploads/2023/12/What-Is-Game-Development-1024x576.jpg",
-      instructor: "Sachira Madhushan",
-      price: "2000",
-      title: "Game Design Fundamentals",
-    ),
-    // Add more courses as needed
-  ];
+  
+   @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CourseProvider>(context, listen: false).getAllCourses();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Map<String,dynamic> courses=Provider.of<CourseProvider>(context).allCourses;
+    bool isLoading=Provider.of<CourseProvider>(context).isLoading;
+
     return Scaffold(
       body: Container(
         child: Stack(
@@ -86,17 +79,27 @@ class _AllCoursesState extends State<AllCourses> {
               bottom: 0,
               child: Container(
                 child: Expanded(
-                  child: ListView.builder(
-                  itemCount: courses.length, // Number of courses
+                  child: 
+                  isLoading?
+                  Text("Loading...")
+                  :
+                  
+                  ListView.builder(
+                  itemCount:courses.isEmpty ? 0:courses['course'].length,
                   itemBuilder: (context, index) {
-                    return Course(
-                      banner: courses[index].banner,
-                      instructor: courses[index].instructor,
-                      price: courses[index].price,
-                      title: courses[index].title,
+                    return GestureDetector(
+                      onTap: (){
+                        print(courses['course'][index]['c_id']);
+                      },
+                      child: Course(
+                        banner: courses['course'][index]['c_banner'],
+                        instructor: courses['course'][index]['c_instructor'],
+                        price: courses['course'][index]['c_price'].toString(),
+                        title: courses['course'][index]['c_title'],
+                      ),
                     );
                   },
-                                  ),
+                  ),
                 ),
                 color: Colors.white,
               ),

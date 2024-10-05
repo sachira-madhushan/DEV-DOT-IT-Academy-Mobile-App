@@ -67,18 +67,26 @@ class AuthProvider extends ChangeNotifier {
 
 
   Future<void> getCurrentUser() async {
-    notifyListeners();
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    _isLoading=true;
+    _u_id=pref.getInt("u_id");
     final response = await http.get(Uri.parse(API.baseUser+"/api/user/"+_u_id.toString()));
     print(response.body);
     if (response.statusCode == 200) {
        final jsonData = json.decode(response.body);
-        _username=jsonData['u_fullname'];
+        _username=jsonData['user']['u_fullname'];
     } else {
       throw Exception('Failed to load users');
     }
-
+    _isLoading=false;
     notifyListeners();
   
+  }
+
+  void setUserLoggedOut()async{
+    SharedPreferences pref= await SharedPreferences.getInstance();
+    pref.setBool("isUserLoggedIn", false);
+    notifyListeners();
   }
 
 }

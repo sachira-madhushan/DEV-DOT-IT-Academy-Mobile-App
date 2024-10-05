@@ -1,4 +1,5 @@
 import 'package:dev_dot_academy/providers/auth_provider.dart';
+import 'package:dev_dot_academy/providers/course_provider.dart';
 import 'package:dev_dot_academy/screens/login_screen.dart';
 import 'package:dev_dot_academy/screens/main_screen.dart';
 import 'package:dev_dot_academy/screens/splash_screen.dart';
@@ -12,7 +13,8 @@ void main() {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create:  (_)=>AuthProvider())
+      ChangeNotifierProvider(create:  (_)=>AuthProvider()),
+      ChangeNotifierProvider(create:  (_)=>CourseProvider())
     ],
     child: MyApp(),
   ));
