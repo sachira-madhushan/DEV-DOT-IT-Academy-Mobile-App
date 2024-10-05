@@ -1,6 +1,8 @@
 import 'package:dev_dot_academy/components/course.dart';
 import 'package:dev_dot_academy/components/search_box.dart';
 import 'package:dev_dot_academy/providers/course_provider.dart';
+import 'package:dev_dot_academy/screens/course_view.dart';
+import 'package:dev_dot_academy/utils/navigate_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -105,7 +107,7 @@ class _AllCoursesState extends State<AllCourses> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
-                        print(courses['course'][index]['c_id']);
+                        NavigateUtils.navigateTo(context, CourseView(couresID:courses['course'][index]['c_id']));
                       },
                       child: Course(
                         banner: courses['course'][index]['c_banner'],

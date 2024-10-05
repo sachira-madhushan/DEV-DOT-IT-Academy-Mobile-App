@@ -10,10 +10,13 @@ class CourseProvider extends ChangeNotifier{
 
   Map<String,dynamic> _AllCourses=Map();
   Map<String,dynamic> _UserCourses=Map();
+  Map<String,dynamic> _course=Map();
   bool? _isLoading=false;
 
   Map<String,dynamic> get allCourses=>_AllCourses;
   Map<String,dynamic> get userCourses=>_UserCourses;
+  Map<String,dynamic> get course=>_course;
+
   get isLoading=>_isLoading;
 
   Future<void> getAllCourses() async {
@@ -43,6 +46,22 @@ class CourseProvider extends ChangeNotifier{
       print(_UserCourses);
     } else {
       throw Exception('Failed to load courses');
+    }
+
+    _isLoading=false; 
+    notifyListeners();
+  }
+
+  Future<void> getCourseByID(int courseID) async {
+    notifyListeners();
+    _isLoading=true;
+    final response = await http.get(Uri.parse(API.baseUser+"/api/course/course/"+courseID.toString()));
+
+    if (response.statusCode == 200) {
+      _course = json.decode(response.body);
+      print(_course);
+    } else {
+      throw Exception('Failed to load course');
     }
 
     _isLoading=false; 
