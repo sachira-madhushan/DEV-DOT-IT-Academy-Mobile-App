@@ -69,7 +69,11 @@ class _CourseViewState extends State<CourseView> {
       child: Scaffold(
         body: isLoading
             ? Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
+            : 
+            courses.isEmpty?
+            Text("")
+            :
+            SingleChildScrollView(
                 child: Column(
                   children: [
                     YoutubePlayer(

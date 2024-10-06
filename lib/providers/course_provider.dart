@@ -88,8 +88,8 @@ class CourseProvider extends ChangeNotifier {
            "Accept": "application/json"
         },
         body: json.encode({
-          "u_id": "31",
-          "c_id": "8",
+          "u_id": userID.toString(),
+          "c_id": courseID.toString(),
         })
       );
 

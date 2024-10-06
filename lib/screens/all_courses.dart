@@ -116,7 +116,9 @@ class _AllCoursesState extends State<AllCourses> {
                   , baseColor: Colors.grey.shade300, highlightColor:  Colors.grey.shade100,)
                   
                   :
-                  
+                  filteredCourses.isEmpty?
+                  Text("")
+                  :
                   ListView.builder(
                   itemCount:filteredCourses.isEmpty ? 0:filteredCourses.length,
                   itemBuilder: (context, index) {
